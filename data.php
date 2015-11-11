@@ -31,7 +31,13 @@
 		$add_new_response = $InterestsManager->addInterest($_GET["add_interest"]);
 		
 	}
-	 // create if end
+	
+	if(isset($_GET["new_dd_selection"])){
+		
+		$add_new_userinterest_response = $InterestsManager->addUserInterest($_GET["new_dd_selection"]);
+		
+	}
+	
  function cleanInput($data) {
   	$data = trim($data);
   	$data = stripslashes($data);
@@ -60,3 +66,25 @@
   	<input name="add_interest"><br><br>
   	<input type="submit">
   </form>
+
+<h2>Minu huvialad</h2>
+
+  <?php if(isset($add_new_userinterest_response->error)): ?>
+  
+	<p style="color:red"> <?=$add_new_userinterest_response->error->message;?> </p>
+  
+  <?php elseif(isset($add_new_userinterest_response->success)): ?>
+  
+	<p style="color:green"> <?=$add_new_userinterest_response->success->message;?> </p>
+  
+  <?php endif; ?>
+
+	<form>
+		<!-- siia järele tuleb rippmenüü -->
+		<?=$InterestsManager->createDropdown();?>
+		<input type="submit">
+	</form>
+	
+	<br><br>
+	
+	<?=$InterestsManager->getUserInterests();?>
